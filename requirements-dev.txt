@@ -1,0 +1,6 @@
+# VSCode
+autopep8
+pylint
+jedi
+# Django
+django-debug-toolbar
