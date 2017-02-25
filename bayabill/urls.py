@@ -18,6 +18,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^billing/', include('billing.urls', namespace='billing')),
     url(r'^', include('account.urls', namespace='account')),
 ]
 
