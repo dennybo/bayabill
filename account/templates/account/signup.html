@@ -7,7 +7,7 @@
 {% block content %}
 <h1>{% trans 'Create an account' %}</h1>
 <p>{% trans 'Please, sign up using the following form:' %}</p>
-<form action="{% url 'account:signup' %}" method="post">
+<form action="{% url 'account:signup' %}" method="POST">
     {{ form.as_p }}
     {% csrf_token %}
     <p>

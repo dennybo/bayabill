@@ -11,7 +11,7 @@ def signup(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
-            redirect(reverse_lazy('account:signin'))
+            return redirect('account:signin')
     else:
         form = SignupForm()
     return render(request, 'account/signup.html', {
