@@ -27,6 +27,13 @@ class Language(models.Model):
         default=True,
     )
 
+    class Meta:
+        verbose_name = _('Language')
+        verbose_name_plural = _('Languages')
+
+    def __str__(self):
+        return self.title
+
 
 class Currency(models.Model):
     id = models.AutoField(
@@ -60,6 +67,8 @@ class Currency(models.Model):
     )
     rate = models.DecimalField(
         verbose_name=_('Conversion Rate'),
+        max_digits=10,
+        decimal_places=4,
         null=False,
         blank=False,
         default=1,
@@ -70,6 +79,13 @@ class Currency(models.Model):
         blank=False,
         default=True,
     )
+
+    class Meta:
+        verbose_name = _('Currency')
+        verbose_name_plural = _('Currencies')
+
+    def __str__(self):
+        return self.iso_code
 
 
 class Country(models.Model):
@@ -109,6 +125,13 @@ class Country(models.Model):
         default=True,
     )
 
+    class Meta:
+        verbose_name = _('Country')
+        verbose_name_plural = _('Countries')
+
+    def __str__(self):
+        return self.title
+
 
 class Store(models.Model):
     id = models.AutoField(
@@ -126,6 +149,18 @@ class Store(models.Model):
         max_length=255,
         null=False,
         blank=False,
+    )
+    default_language = models.ForeignKey(
+        Language,
+        related_name='stores',
+        null=True,
+        blank=True,
+    )
+    default_currency = models.ForeignKey(
+        Currency,
+        related_name='stores',
+        null=True,
+        blank=True,
     )
     ssl_enabled = models.BooleanField(
         verbose_name=_('SSL Enabled'),
@@ -145,3 +180,10 @@ class Store(models.Model):
         blank=False,
         default=True,
     )
+
+    class Meta:
+        verbose_name = _('Store')
+        verbose_name_plural = _('Stores')
+
+    def __str__(self):
+        return self.title
