@@ -162,6 +162,12 @@ class Store(models.Model):
         null=True,
         blank=True,
     )
+    default_country = models.ForeignKey(
+        Country,
+        related_name='stores',
+        null=True,
+        blank=True,
+    )
     ssl_enabled = models.BooleanField(
         verbose_name=_('SSL Enabled'),
         null=False,
