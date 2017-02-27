@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Language, Currency, Country, Store, Category, CategoryLang, Product, ProductLang
+from .models import Language, Currency, Country, Store, Category, CategoryLang, Product, ProductLang, ProductPricing
 
 
 class LanguageAdmin(admin.ModelAdmin):
@@ -39,13 +39,17 @@ class CategoryAdmin(admin.ModelAdmin):
     inlines = [CategoryInline]
 
 
-class ProductInline(admin.StackedInline):
+class ProductLangInline(admin.StackedInline):
     model = ProductLang
+
+
+class ProductPricingInline(admin.StackedInline):
+    model = ProductPricing
 
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['id', 'category', 'store', 'is_active']
-    inlines = [ProductInline]
+    inlines = [ProductLangInline, ProductPricingInline]
 
 
 admin.site.register(Language, LanguageAdmin)
