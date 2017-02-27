@@ -218,6 +218,18 @@ class Category(models.Model):
         blank=False,
         default=True,
     )
+    create_date = models.DateTimeField(
+        verbose_name=_('Create Date'),
+        null=False,
+        blank=False,
+        auto_now_add=True,
+    )
+    update_date = models.DateTimeField(
+        verbose_name=_('Update Date'),
+        null=True,
+        blank=True,
+        auto_now=True,
+    )
 
     class Meta:
         verbose_name = _('Category')
@@ -241,6 +253,101 @@ class CategoryLang(models.Model):
     language = models.ForeignKey(
         Language,
         related_name='categories',
+        null=False,
+        blank=False,
+    )
+    title = models.CharField(
+        verbose_name=_('Title'),
+        max_length=255,
+        null=False,
+        blank=False,
+    )
+    description = models.TextField(
+        verbose_name=_('Description'),
+        null=True,
+        blank=True,
+    )
+    url_key = models.CharField(
+        verbose_name=_('URL Key'),
+        max_length=255,
+        null=False,
+        blank=False,
+    )
+    meta_title = models.CharField(
+        verbose_name=_('Meta Title'),
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    meta_description = models.CharField(
+        verbose_name=_('Meta Description'),
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+
+    def __str__(self):
+        return self.title
+
+
+class Product(models.Model):
+    id = models.AutoField(
+        verbose_name=_('ID'),
+        primary_key=True,
+    )
+    store = models.ForeignKey(
+        Store,
+        related_name='products',
+        null=False,
+        blank=False,
+    )
+    category = models.ForeignKey(
+        Category,
+        related_name='products',
+        null=False,
+        blank=False,
+    )
+    is_active = models.BooleanField(
+        verbose_name=_('Is Active'),
+        null=False,
+        blank=False,
+        default=True,
+    )
+    create_date = models.DateTimeField(
+        verbose_name=_('Create Date'),
+        null=False,
+        blank=False,
+        auto_now_add=True,
+    )
+    update_date = models.DateTimeField(
+        verbose_name=_('Update Date'),
+        null=True,
+        blank=True,
+        auto_now=True,
+    )
+
+    class Meta:
+        verbose_name = _('Product')
+        verbose_name_plural = _('Products')
+
+    def __str__(self):
+        return str(self.id)
+
+
+class ProductLang(models.Model):
+    id = models.AutoField(
+        verbose_name=_('ID'),
+        primary_key=True,
+    )
+    product = models.ForeignKey(
+        Product,
+        related_name='langs',
+        null=False,
+        blank=False,
+    )
+    language = models.ForeignKey(
+        Language,
+        related_name='products',
         null=False,
         blank=False,
     )
