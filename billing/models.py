@@ -236,7 +236,11 @@ class Category(models.Model):
         verbose_name_plural = _('Categories')
 
     def __str__(self):
-        return str(self.id)
+        category_lang = CategoryLang.objects.get(
+            category=self,
+            language=self.store.default_language,
+        )
+        return category_lang.title
 
 
 class CategoryLang(models.Model):
@@ -318,6 +322,7 @@ class Product(models.Model):
         choices=Payment_Types,
         null=False,
         blank=False,
+        default='recurring',
     )
     is_active = models.BooleanField(
         verbose_name=_('Is Active'),
@@ -343,7 +348,11 @@ class Product(models.Model):
         verbose_name_plural = _('Products')
 
     def __str__(self):
-        return str(self.id)
+        product_lang = ProductLang.objects.get(
+            product=self,
+            language=self.store.default_language,
+        )
+        return product_lang.title
 
 
 class ProductLang(models.Model):
@@ -414,73 +423,243 @@ class ProductPricing(models.Model):
         null=False,
         blank=False,
     )
+    onetime_setup_fee = models.DecimalField(
+        verbose_name=_('One Time (Setup Fee)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
+    )
     onetime = models.DecimalField(
         verbose_name=_('One Time'),
         max_digits=10,
         decimal_places=4,
-        null=True,
+        null=False,
         blank=True,
+        default=0,
+    )
+    onetime_cost = models.DecimalField(
+        verbose_name=_('One Time (Cost)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
+    )
+    hourly_setup_fee = models.DecimalField(
+        verbose_name=_('Hourly (Setup Fee)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
     )
     hourly = models.DecimalField(
         verbose_name=_('Hourly'),
         max_digits=10,
         decimal_places=4,
-        null=True,
+        null=False,
         blank=True,
+        default=0,
     )
-    Daily = models.DecimalField(
+    hourly_cost = models.DecimalField(
+        verbose_name=_('Hourly (Cost)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
+    )
+    daily_setup_fee = models.DecimalField(
+        verbose_name=_('Daily (Setup Fee)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
+    )
+    daily = models.DecimalField(
         verbose_name=_('Daily'),
         max_digits=10,
         decimal_places=4,
-        null=True,
+        null=False,
         blank=True,
+        default=0,
+    )
+    daily_cost = models.DecimalField(
+        verbose_name=_('Daily (Cost)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
+    )
+    weekly_setup_fee = models.DecimalField(
+        verbose_name=_('Weekly (Setup Fee)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
     )
     weekly = models.DecimalField(
         verbose_name=_('Weekly'),
         max_digits=10,
         decimal_places=4,
-        null=True,
+        null=False,
         blank=True,
+        default=0,
+    )
+    weekly_cost = models.DecimalField(
+        verbose_name=_('Weekly (Cost)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
+    )
+    monthly_setup_fee = models.DecimalField(
+        verbose_name=_('Monthly (Setup Fee)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
     )
     monthly = models.DecimalField(
         verbose_name=_('Monthly'),
         max_digits=10,
         decimal_places=4,
-        null=True,
+        null=False,
         blank=True,
+        default=0,
+    )
+    monthly_cost = models.DecimalField(
+        verbose_name=_('Monthly (Cost)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
+    )
+    quarterly_setup_fee = models.DecimalField(
+        verbose_name=_('Quarterly (Setup Fee)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
     )
     quarterly = models.DecimalField(
         verbose_name=_('Quarterly'),
         max_digits=10,
         decimal_places=4,
-        null=True,
+        null=False,
         blank=True,
+        default=0,
+    )
+    quarterly_cost = models.DecimalField(
+        verbose_name=_('Quarterly (Cost)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
+    )
+    semi_annually_setup_fee = models.DecimalField(
+        verbose_name=_('Semi-Annually (Setup Fee)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
     )
     semi_annually = models.DecimalField(
         verbose_name=_('Semi-Annually'),
         max_digits=10,
         decimal_places=4,
-        null=True,
+        null=False,
         blank=True,
+        default=0,
+    )
+    semi_annually_cost = models.DecimalField(
+        verbose_name=_('Semi-Annually (Cost)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
+    )
+    annually_setup_fee = models.DecimalField(
+        verbose_name=_('Annually (Setup Fee)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
     )
     annually = models.DecimalField(
         verbose_name=_('Annually'),
         max_digits=10,
         decimal_places=4,
-        null=True,
+        null=False,
         blank=True,
+        default=0,
+    )
+    annually_cost = models.DecimalField(
+        verbose_name=_('Annually (Cost)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
+    )
+    biennially_setup_fee = models.DecimalField(
+        verbose_name=_('Biennially (Setup Fee)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
     )
     biennially = models.DecimalField(
         verbose_name=_('Biennially'),
         max_digits=10,
         decimal_places=4,
-        null=True,
+        null=False,
         blank=True,
+        default=0,
+    )
+    biennially_cost = models.DecimalField(
+        verbose_name=_('Biennially (Cost)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
+    )
+    triennially_setup_fee = models.DecimalField(
+        verbose_name=_('Triennially (Setup Fee)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
     )
     triennially = models.DecimalField(
         verbose_name=_('Triennially'),
         max_digits=10,
         decimal_places=4,
-        null=True,
+        null=False,
         blank=True,
+        default=0,
+    )
+    triennially_cost = models.DecimalField(
+        verbose_name=_('Triennially (Cost)'),
+        max_digits=10,
+        decimal_places=4,
+        null=False,
+        blank=True,
+        default=0,
     )
