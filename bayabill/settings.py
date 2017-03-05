@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'account',
     'billing',
+    'web',
     'debug_toolbar',
 )
 
