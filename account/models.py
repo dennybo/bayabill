@@ -7,27 +7,22 @@ from django.utils.translation import ugettext_lazy as _
 
 class UserManager(BaseUserManager):
 
-    def __create_user(self, site, email, password=None):
+    def __create_user(self, email, password=None):
         if not email:
             raise ValueError(_('User must have an email address.'))
-        try:
-            site = Site.objects.get(id=site)
-        except Site.DoesNotExist:
-            raise ValueError(_('Site ID is invalid.'))
         user = self.model(
-            site=site,
             email=self.normalize_email(email),
         )
         user.set_password(password)
         return user
 
-    def create_user(self, site, email, password=None):
-        user = self.__create_user(site, email, password)
+    def create_user(self, email, password=None):
+        user = self.__create_user(email, password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, site, email, password):
-        user = self.__create_user(site, email, password)
+    def create_superuser(self, email, password):
+        user = self.__create_user(email, password)
         user.is_superuser = True
         user.save(using=self._db)
         return user
@@ -41,8 +36,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     site = models.ForeignKey(
         Site,
         related_name='users',
-        null=False,
-        blank=False,
+        null=True,
+        blank=True,
         db_index=True,
     )
     email = fields.EmailField(
@@ -89,7 +84,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.is_superuser
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['site']
+    REQUIRED_FIELDS = []
 
     objects = UserManager()
 
