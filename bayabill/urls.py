@@ -14,14 +14,18 @@ Including another URLconf
 """
 from django.conf import settings
 from django.conf.urls import include, url
+from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^billing/', include('billing.urls', namespace='billing')),
+]
+
+urlpatterns += i18n_patterns(
     url(r'^', include('account.urls', namespace='account')),
     url(r'^', include('web.urls', namespace='web')),
-]
+)
 
 if settings.DEBUG:
     import debug_toolbar

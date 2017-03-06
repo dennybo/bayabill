@@ -105,7 +105,7 @@ DATABASES = {
 LANGUAGE_CODE = 'en'
 
 LANGUAGES = (
-    ('en', _('English'))
+    ('en', _('English')),
 )
 
 LOCALE_PATHS = (
