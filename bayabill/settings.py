@@ -30,6 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+DEFAULT_CHARSET = 'UTF-8'
 
 # Application definition
 
@@ -95,6 +96,7 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': '3306',
+        'CHARSET': 'UTF-8',
     }
 }
 
