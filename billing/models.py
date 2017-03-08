@@ -822,16 +822,18 @@ class Cart(models.Model):
         null=False,
         blank=False,
     )
-    item = models.ManyToManyField(
+    product = models.ManyToManyField(
         Product,
         through='CartItem',
         through_fields=('cart', 'product'),
     )
     total_amount = fields.DecimalField(
+        verbose_name=_('Total Amount'),
         max_digits=10,
         decimal_places=4,
         null=False,
-        blank=False,
+        blank=True,
+        default=0,
     )
     create_date = models.DateTimeField(
         verbose_name=_('Create Date'),
@@ -871,28 +873,32 @@ class CartItem(models.Model):
     )
     product = models.ForeignKey(
         Product,
-        related_name='items_cart',
+        related_name='items',
         on_delete=models.CASCADE,
         null=False,
         blank=False,
     )
     term = fields.PositiveSmallIntegerField(
+        verbose_name=_('Term'),
         null=False,
         blank=False,
         choices=Product.Payment_Terms,
     )
     unit_price = fields.DecimalField(
+        verbose_name=_('Unit Price'),
         max_digits=10,
         decimal_places=4,
         null=False,
         blank=False,
     )
     quantity = fields.PositiveSmallIntegerField(
+        verbose_name=_('Quantity'),
         null=False,
         blank=False,
         default=1,
     )
     item_price = fields.DecimalField(
+        verbose_name=_('Item Price'),
         max_digits=10,
         decimal_places=4,
         null=False,

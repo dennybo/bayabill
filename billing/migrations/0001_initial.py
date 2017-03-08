@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             name='Cart',
             fields=[
                 ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True)),
-                ('total_amount', models.DecimalField(max_digits=10, decimal_places=4)),
+                ('total_amount', models.DecimalField(default=0, verbose_name='Total Amount', max_digits=10, decimal_places=4, blank=True)),
                 ('create_date', models.DateTimeField(auto_now_add=True, verbose_name='Create Date')),
                 ('update_date', models.DateTimeField(auto_now=True, verbose_name='Update Date', null=True)),
             ],
@@ -32,10 +32,10 @@ class Migration(migrations.Migration):
             name='CartItem',
             fields=[
                 ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True)),
-                ('term', models.PositiveSmallIntegerField(choices=[(0, 'One-Time'), (1, 'Hourly'), (24, 'Daily')])),
-                ('unit_price', models.DecimalField(max_digits=10, decimal_places=4)),
-                ('quantity', models.PositiveSmallIntegerField(default=1)),
-                ('item_price', models.DecimalField(max_digits=10, decimal_places=4)),
+                ('term', models.PositiveSmallIntegerField(verbose_name='Term', choices=[(0, 'One-Time'), (1, 'Hourly'), (24, 'Daily')])),
+                ('unit_price', models.DecimalField(verbose_name='Unit Price', max_digits=10, decimal_places=4)),
+                ('quantity', models.PositiveSmallIntegerField(default=1, verbose_name='Quantity')),
+                ('item_price', models.DecimalField(verbose_name='Item Price', max_digits=10, decimal_places=4)),
                 ('cart', models.ForeignKey(related_name='items', to='billing.Cart')),
             ],
             options={
@@ -275,7 +275,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='cartitem',
             name='product',
-            field=models.ForeignKey(related_name='items_cart', to='billing.Product'),
+            field=models.ForeignKey(related_name='items', to='billing.Product'),
         ),
         migrations.AddField(
             model_name='cart',
@@ -284,7 +284,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='cart',
-            name='item',
+            name='product',
             field=models.ManyToManyField(to='billing.Product', through='billing.CartItem'),
         ),
         migrations.AddField(
