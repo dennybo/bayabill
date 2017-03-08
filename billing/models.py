@@ -32,6 +32,10 @@ class Language(models.Model):
         default=True,
         db_index=True,
     )
+    store = models.ManyToManyField(
+        'Store',
+        db_table='billing_store_languages',
+    )
     records = models.Manager()
 
     class Meta:
@@ -92,6 +96,10 @@ class Currency(models.Model):
         blank=False,
         default=True,
         db_index=True,
+    )
+    store = models.ManyToManyField(
+        'Store',
+        db_table='billing_store_currencies',
     )
     records = models.Manager()
 
@@ -907,7 +915,7 @@ class CartItem(models.Model):
     records = models.Manager()
 
     class Meta:
-        db_table = 'billing_cart_item'
+        db_table = 'billing_cart_items'
         default_related_name = 'items'
         verbose_name = _('Cart Item')
         verbose_name_plural = _('Cart Items')

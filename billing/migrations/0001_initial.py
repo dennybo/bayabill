@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
                 ('cart', models.ForeignKey(related_name='items', to='billing.Cart')),
             ],
             options={
-                'db_table': 'billing_cart_item',
+                'db_table': 'billing_cart_items',
                 'verbose_name': 'Cart Item',
                 'verbose_name_plural': 'Cart Items',
                 'default_related_name': 'items',
@@ -251,6 +251,16 @@ class Migration(migrations.Migration):
             model_name='product',
             name='store',
             field=models.ForeignKey(related_name='products', to='billing.Store'),
+        ),
+        migrations.AddField(
+            model_name='language',
+            name='store',
+            field=models.ManyToManyField(to='billing.Store', db_table=b'billing_store_languages'),
+        ),
+        migrations.AddField(
+            model_name='currency',
+            name='store',
+            field=models.ManyToManyField(to='billing.Store', db_table=b'billing_store_currencies'),
         ),
         migrations.AddField(
             model_name='country',
