@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('create_date', models.DateTimeField(auto_now_add=True, verbose_name='Create Date')),
                 ('update_date', models.DateTimeField(auto_now=True, verbose_name='Update Date', null=True)),
                 ('groups', models.ManyToManyField(related_query_name='user', related_name='user_set', to='auth.Group', blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', verbose_name='groups')),
-                ('site', models.ForeignKey(related_name='users', to='sites.Site')),
+                ('site', models.ForeignKey(related_name='users', blank=True, to='sites.Site', null=True)),
                 ('user_permissions', models.ManyToManyField(related_query_name='user', related_name='user_set', to='auth.Permission', blank=True, help_text='Specific permissions for this user.', verbose_name='user permissions')),
             ],
             options={
