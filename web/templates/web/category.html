@@ -1,0 +1,14 @@
+{% extends 'web/layout.base.html' %}
+{% block title %}{{ category.meta_title }}{% endblock %}
+{% block content %}
+    <h1>{{ category.title }}</h1>
+    {% for product in products %}
+        <ul>
+            <li>
+                <a href="{% url 'web:product' category.url_key product.url_key %}">
+                {{ product.title }}
+                </a>
+            </li>
+        </ul>
+    {% endfor %}
+{% endblock %}
