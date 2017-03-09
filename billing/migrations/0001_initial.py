@@ -137,7 +137,7 @@ class Migration(migrations.Migration):
                 ('is_active', models.BooleanField(default=True, db_index=True, verbose_name='Is Active')),
                 ('create_date', models.DateTimeField(auto_now_add=True, verbose_name='Create Date')),
                 ('update_date', models.DateTimeField(auto_now=True, verbose_name='Update Date', null=True)),
-                ('category', models.ForeignKey(related_name='products', to='billing.Category')),
+                ('category', models.ManyToManyField(related_name='categories', db_table=b'billing_product_categories', to='billing.Category')),
             ],
             options={
                 'db_table': 'billing_product',
@@ -230,9 +230,11 @@ class Migration(migrations.Migration):
                 ('url', models.URLField(max_length=255, verbose_name='Store Url')),
                 ('is_default', models.BooleanField(default=False, db_index=True, verbose_name='Is Default')),
                 ('is_active', models.BooleanField(default=True, db_index=True, verbose_name='Is Active')),
+                ('currency', models.ManyToManyField(related_name='currencies', db_table=b'billing_store_currencies', to='billing.Currency')),
                 ('default_country', models.ForeignKey(related_name='stores', blank=True, to='billing.Country', null=True)),
                 ('default_currency', models.ForeignKey(related_name='stores', blank=True, to='billing.Currency', null=True)),
                 ('default_language', models.ForeignKey(related_name='stores', blank=True, to='billing.Language', null=True)),
+                ('language', models.ManyToManyField(related_name='languages', db_table=b'billing_store_languages', to='billing.Language')),
             ],
             options={
                 'db_table': 'billing_store',
@@ -251,16 +253,6 @@ class Migration(migrations.Migration):
             model_name='product',
             name='store',
             field=models.ForeignKey(related_name='products', to='billing.Store'),
-        ),
-        migrations.AddField(
-            model_name='language',
-            name='store',
-            field=models.ManyToManyField(to='billing.Store', db_table=b'billing_store_languages'),
-        ),
-        migrations.AddField(
-            model_name='currency',
-            name='store',
-            field=models.ManyToManyField(to='billing.Store', db_table=b'billing_store_currencies'),
         ),
         migrations.AddField(
             model_name='country',
