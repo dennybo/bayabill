@@ -63,7 +63,7 @@ class ProductPricingInline(admin.StackedInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'category', 'store', 'is_active']
+    list_display = ['id', 'title', 'store', 'is_active']
     list_display_links = ['title']
     inlines = [ProductLangInline, ProductPricingInline]
 

@@ -32,10 +32,6 @@ class Language(models.Model):
         default=True,
         db_index=True,
     )
-    store = models.ManyToManyField(
-        'Store',
-        db_table='billing_store_languages',
-    )
     records = models.Manager()
 
     class Meta:
@@ -96,10 +92,6 @@ class Currency(models.Model):
         blank=False,
         default=True,
         db_index=True,
-    )
-    store = models.ManyToManyField(
-        'Store',
-        db_table='billing_store_currencies',
     )
     records = models.Manager()
 
@@ -208,6 +200,16 @@ class Store(Site):
         blank=False,
         default=True,
         db_index=True,
+    )
+    language = models.ManyToManyField(
+        'Language',
+        related_name='languages',
+        db_table='billing_store_languages',
+    )
+    currency = models.ManyToManyField(
+        'Currency',
+        related_name='currencies',
+        db_table='billing_store_currencies',
     )
     records = models.Manager()
 
@@ -420,12 +422,6 @@ class Product(models.Model):
         null=False,
         blank=False,
     )
-    category = models.ForeignKey(
-        Category,
-        related_name='products',
-        null=False,
-        blank=False,
-    )
     quantity = fields.PositiveSmallIntegerField(
         null=False,
         blank=False,
@@ -462,6 +458,11 @@ class Product(models.Model):
         null=True,
         blank=True,
         auto_now=True,
+    )
+    category = models.ManyToManyField(
+        'Category',
+        related_name='categories',
+        db_table='billing_product_categories',
     )
     records = models.Manager()
 
