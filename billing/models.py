@@ -422,7 +422,15 @@ class Product(models.Model):
         null=False,
         blank=False,
     )
+    main_category = models.ForeignKey(
+        Category,
+        verbose_name=_('Main Category'),
+        related_name='products',
+        null=False,
+        blank=False,
+    )
     quantity = fields.PositiveSmallIntegerField(
+        verbose_name=_('Quantity'),
         null=False,
         blank=False,
         default=1,
@@ -461,6 +469,7 @@ class Product(models.Model):
     )
     category = models.ManyToManyField(
         'Category',
+        verbose_name=_('Categories'),
         related_name='categories',
         db_table='billing_product_categories',
     )
