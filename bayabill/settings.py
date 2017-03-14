@@ -42,11 +42,30 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
+)
+
+LOCAL_APPS = (
     'account',
     'billing',
     'web',
-    'debug_toolbar',
 )
+
+INSTALLED_APPS += LOCAL_APPS
+
+for app in LOCAL_APPS:
+    app_modules_path = os.path.join(BASE_DIR, app, 'modules')
+    if os.path.isdir(app_modules_path):
+        categories_dirs = [d for d in os.listdir(app_modules_path) if os.path.isdir(os.path.join(app_modules_path, d))]
+        for category_dir in categories_dirs:
+            category_path = os.path.join(BASE_DIR, app, 'modules', category_dir)
+            modules_dirs = [d for d in os.listdir(category_path) if os.path.isdir(os.path.join(category_path, d))]
+            for module_dir in modules_dirs:
+                INSTALLED_APPS += ('%(app)s.modules.%(category)s.%(module)s' % {
+                    'app': app,
+                    'category': category_dir,
+                    'module': module_dir
+                },)
 
 SITE_ID = 1
 
